@@ -26,6 +26,7 @@ struct mot{
 
 
 
+
 void remplir_table_transition(int table_transitions[][6]) {
 	int i = 0, j = 0;
 
@@ -104,13 +105,12 @@ int verifier_syntaxe_phrase(char phrase[], mot dictionnaire[], int table_transit
 		return 8;
 	}
 
-
 	pt = strtok(phrase, separateur); // pt pointe sur le premier morceau
 
 	while( pt != NULL && etat != 8 && etat != 9) //tant qu'il reste des mots, et que 
 	{
 		
-      // printf( " %s\n", pt );
+       // printf( " %s\n", pt );
       //strcpy(tab_mots[i] , pt);
       
 
@@ -194,13 +194,25 @@ int main() {
 
 	remplir_table_transition(table_transitions);
 
+
+	int etat = 0;
+
+	char* phrase;
+
 	for (i = 0; i < 12; i++) {
-		int etat = 0;
-		char* phrase = phrases[i];
+		etat = 0;
+		phrase = phrases[i];
 		printf("\nPhrase = %s\n", phrase);
 		etat = verifier_syntaxe_phrase(phrase, dictionnaire, table_transitions);
 		afficherSortie(etat);
 	}
+
+	char phraseSaisie[TAILLE_MAX_PHRASE];
+	printf("\nSaisir une phrase :\n");
+	gets(phraseSaisie);
+	// printf("%s\n", phraseSaisie);
+	etat = verifier_syntaxe_phrase(phraseSaisie, dictionnaire, table_transitions);
+	afficherSortie(etat);
 
 	return 0;
 }
