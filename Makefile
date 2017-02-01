@@ -1,2 +1,2 @@
 all:
-	gcc -o tp1-ex4 main.c
+	gcc -o tp2 main.c
