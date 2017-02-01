@@ -6,6 +6,7 @@
 /*** 																*/
 /********************************************************************/
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 /*
 
@@ -14,14 +15,12 @@ David Vivier et Kévin Varagnat
 */
 
 
-#define TAILLE 50
-
 typedef struct mots mots ;
 struct mots{
 	char libelle_mot[10];
 	int type_mot;
 };
-
+                           
 
 int main() {
 	
