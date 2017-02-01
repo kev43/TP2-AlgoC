@@ -9,7 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TAILLE_DICO 10
+#define TAILLE_DICO 50
+#define TAILLE_MAX_PHRASE 1000
 /*
 
 David Vivier et Kévin Varagnat
@@ -30,7 +31,7 @@ int main() {
 	
 	mots dictionnaire[TAILLE_DICO]={{"le",0},{"chat",2},{"souris",2},{"mange",3},{"la",0},{"petite",1},{".",5},{"bleu",1},{"dort",3},{"julie",4},{"joue",3},{"joli",1}};
 	int i = 0, j = 0;
-	char phrase[1000] = "le ,joli chat joue.";
+	char phrase[TAILLE_MAX_PHRASE] = "le ,joli chat joue.";
 	char *tab_mots[50] ;
 	
 	const char separateur[] = " ,;";
@@ -38,8 +39,6 @@ int main() {
 
 	// pointe le mot courant
 	char *pt = NULL;
-
-	pt = strtok(phrase, separateur); // pt pointe sur le premier morceau
    	
    	// le type du mot courant
    	int type_mot = 0;
@@ -79,14 +78,33 @@ int main() {
 
 	table_transitions[7][5] = 9;
 
+	// on cherche le premier point de la chaîne
+	for (i = 0; i < strlen(phrase);i++) {
+		if (phrase[i] == '.') {
+			if (i > TAILLE_MAX_PHRASE - 3) {
+				// la phrase est trop longue pour insérer une espace
+				printf("\nLa phrase est trop longue.\n");
+				return -1;
+			}
+			// on insère une espace pour que le point soit reconnu comme un mot
+			// et on tronque le reste de la phrase
+			phrase[i] = ' ';
+			phrase[i+1] = '.';
+			phrase[i+2] = '\0';
+			break;
+		}
+	}
 
 
-	while( pt != NULL ) //tant qu'il reste des mots
+	pt = strtok(phrase, separateur); // pt pointe sur le premier morceau
+
+	while( pt != NULL && etat != 8 && etat != 9) //tant qu'il reste des mots, et que 
 	{
 		
       printf( " %s\n", pt );
       //strcpy(tab_mots[i] , pt);
       
+
       // on détermine la classe grammaticale du mot
       for (i = 0; i < TAILLE_DICO; i++) {
       	if (strcmp(dictionnaire[i].libelle, pt) == 0) {
