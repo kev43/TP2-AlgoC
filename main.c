@@ -1,21 +1,22 @@
 /********************************************************************/
 /*** VIVIER David													*/
 /*** VARAGNAT Kévin													*/
-/*** 31/01/2017											            */
-/*** Exécuter ./tp1-ex4 pour utiliser le programme 					*/
+/*** 01/02/2017											            */
+/*** Exécuter ./tp2 pour utiliser le programme 						*/
+/*** 																*/
+/*** Ce programme vérifie qu'une phrase est syntaxiquement correcte */
+/*** à l'aide d'un automate et d'un dictionnaire de mots. 			*/
 /*** 																*/
 /********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+// nombre maximum d'entrées du dictionnaire
 #define TAILLE_DICO 50
-#define TAILLE_MAX_PHRASE 1000
-/*
 
-David Vivier et Kévin Varagnat
-01/02/2017
-*/
+// taille maximale d'une phrase
+#define TAILLE_MAX_PHRASE 1000
 
 
 typedef struct mot mot ;
@@ -25,7 +26,10 @@ struct mot{
 };
 
 
-
+/*
+* entrée/sortie : le tableau représentant la table des transitions
+*	Cette fonction remplit la table des transitions.
+*/
 
 void remplir_table_transition(int table_transitions[][6]) {
 	int i = 0, j = 0;
@@ -61,6 +65,17 @@ void remplir_table_transition(int table_transitions[][6]) {
 	table_transitions[7][5] = 9;
 }
 
+
+/*
+*	entrée : phrase - la phrase à tester
+*	entrée : mot_dictionnaire - la liste des mots
+*	entrée : table_transition - la table des transitions
+*	sortie : etat - l'état final de l'automate
+*				8 = phrase incorrecte 
+*				9 = phrase correcte
+*	La fonction principale qui exécute l'automate
+*	pour déterminer si la phrase est correcte ou non.
+*/
 int verifier_syntaxe_phrase(char phrase[], mot dictionnaire[], int table_transitions[][6]) {
 
 	int i = 0;
@@ -78,7 +93,7 @@ int verifier_syntaxe_phrase(char phrase[], mot dictionnaire[], int table_transit
    	// l'état de l'automate
    	int etat = 0;
 
-
+   	// cas d'une phrase vide
    	if (strlen(phrase) == 0) {
    		printf("Phrase vide.\n");
    		return 8;
@@ -107,7 +122,7 @@ int verifier_syntaxe_phrase(char phrase[], mot dictionnaire[], int table_transit
 
 	pt = strtok(phrase, separateur); // pt pointe sur le premier morceau
 
-	while( pt != NULL && etat != 8 && etat != 9) //tant qu'il reste des mots, et que 
+	while( pt != NULL && etat != 8 && etat != 9) //tant qu'il reste des mots, et qu'on n'a pas d'état final (8 ou 9)
 	{
 		
        // printf( " %s\n", pt );
@@ -133,6 +148,7 @@ int verifier_syntaxe_phrase(char phrase[], mot dictionnaire[], int table_transit
 
       // détermination du nouvel état
       etat = table_transitions[etat][type_mot];
+
       // printf("nouvel état = %d\n", etat);
 
       // on récupère le mot suivant
@@ -143,7 +159,11 @@ int verifier_syntaxe_phrase(char phrase[], mot dictionnaire[], int table_transit
 	return etat;
 }
 
-
+/*
+*	entrée : etat - l'état final de l'automate
+*	sortie : affichage user-friendly
+*	Affiche une phrase correspondant à l'état final
+*/
 void afficherSortie(etat) {
 	if (etat == 8) {
 		printf("Phrase syntaxiquement incorrecte.\n");
@@ -173,22 +193,7 @@ int main() {
 		"le joli chat joue",
 		"le joli chat miaule.",
 	};
-
-	// phrases correctes
-	// char phrase[TAILLE_MAX_PHRASE] = "le joli chat joue.";
-	// char phrase[TAILLE_MAX_PHRASE] = "le ,joli chat ; joue.";
-	// char phrase[TAILLE_MAX_PHRASE] = "la grosse souris verte mange le joli petit chat blanc.";
-	// char phrase[TAILLE_MAX_PHRASE] = "la grosse souris verte mange Jean.";
-	// char phrase[TAILLE_MAX_PHRASE] = "Jean joue.";
-	// char phrase[TAILLE_MAX_PHRASE] = "Jean mange Martin.";
-	// char phrase[TAILLE_MAX_PHRASE] = "Jean mange le chat.";
-	// char phrase[TAILLE_MAX_PHRASE] = "la verte souris grosse petit mange le blanc verte chat petit.";
-
-	// phrases incorrectes
-	// char phrase[TAILLE_MAX_PHRASE] = ".";
-	// char phrase[TAILLE_MAX_PHRASE] = "";
-	// char phrase[TAILLE_MAX_PHRASE] = "le joli chat joue";
-	// char phrase[TAILLE_MAX_PHRASE] = "le joli chat miaule.";
+	
 	
 	int table_transitions[8][6] = {};
 
