@@ -28,7 +28,7 @@ struct mots{
 
 int main() {
 	
-	mots dictionnaire[TAILLE_DICO]={{"le",0},{"chat",2},{"souris",2},{"mange",3},{"la",0},{"petite",1},{".",5},{"bleu",1},{"dort",3},{"julie",4}};
+	mots dictionnaire[TAILLE_DICO]={{"le",0},{"chat",2},{"souris",2},{"mange",3},{"la",0},{"petite",1},{".",5},{"bleu",1},{"dort",3},{"julie",4},{"joue",3},{"joli",1}};
 	int i = 0, j = 0;
 	char phrase[1000] = "le ,joli chat joue.";
 	char *tab_mots[50] ;
